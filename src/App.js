@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { motion } from "framer-motion";
 import {
   Github,
@@ -8,95 +8,111 @@ import {
   Code,
   Laptop,
 } from "lucide-react";
-import EventNFT from './pic/Event-NFT.png'; // Your image for Project 1
-import chainblockart from './pic/chainblockart.png'; // Your image for Project 2
-import vectorium from './pic/vectorium.png'; // Your image for Project 3
+import EventNFT from './pic/Event-NFT.png';
+import chainblockart from './pic/chainblockart.png';
+import vectorium from './pic/vectorium.png';
 import './App.css';
 
 export function App() {
+  // Scroll tracking for navigation dots
+  const [activeSection, setActiveSection] = useState("header");
+
   // Project data array
   const projectData = [
     {
       title: "EVENT NFT",
       description: "Description for project 1, explaining key features and technologies used.",
-      liveDemo: "https://eventnft.netlify.app/", // Add your live demo link
-      code: "#", // Add your GitHub repo link
+      liveDemo: "https://eventnft.netlify.app/",
+      code: "#",
       image: EventNFT,
     },
     {
       title: "chainblockart",
       description: "Description for project 2, explaining key features and technologies used.",
-      liveDemo: "https://chainblockart.netlify.app/", // Add your live demo link
-      code: "https://github.com/sepool7/ChainblockTicket2277", // Add your GitHub repo link
+      liveDemo: "https://chainblockart.netlify.app/",
+      code: "https://github.com/sepool7/ChainblockTicket2277",
       image: chainblockart,
     },
     {
       title: "vectorium",
       description: "Description for project 3, explaining key features and technologies used.",
-      liveDemo: "https://vectorium.co/", // Add your live demo link
-      code: "https://github.com/sepool7/Vectorium4.16", // Add your GitHub repo link
+      liveDemo: "https://vectorium.co/",
+      code: "https://github.com/sepool7/Vectorium4.16",
       image: vectorium,
     },
   ];
 
+  // Handle scroll to update active section for nav dots
+  useEffect(() => {
+    const sections = ["header", "about", "projects", "skills"];
+    function onScroll() {
+      const scrollPos = window.scrollY + window.innerHeight / 2;
+      for (let i = 0; i < sections.length; i++) {
+        const elem = document.getElementById(sections[i]);
+        if (!elem) continue;
+        if (elem.offsetTop <= scrollPos && (elem.offsetTop + elem.offsetHeight) > scrollPos) {
+          setActiveSection(sections[i]);
+          break;
+        }
+      }
+    }
+    window.addEventListener("scroll", onScroll);
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
+
+  // Scroll to section handler
+  function scrollToSection(id) {
+    document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
+  }
+
+  // Variants for animations
+  const fadeUpVariant = {
+    hidden: { opacity: 0, y: 20 },
+    visible: { opacity: 1, y: 0 },
+  };
+
   return (
-    <div className="app-container">
-      <header className="header-container">
+    <div className={"app-container"}>    
+
+      {/* Navigation Dots */}
+      <nav className="nav-dots" aria-label="Section navigation">
+        {["header", "about", "projects", "skills"].map((section) => (
+          <button
+            key={section}
+            className={`nav-dot ${activeSection === section ? "active" : ""}`}
+            onClick={() => scrollToSection(section)}
+            aria-label={`Go to ${section} section`}
+          />
+        ))}
+      </nav>
+
+      {/* Header Section */}
+      <header id="header" className="header-container">
         <motion.div
-          initial={{
-            opacity: 0,
-            y: 20,
-          }}
-          animate={{
-            opacity: 1,
-            y: 0,
-          }}
-          transition={{
-            duration: 0.8,
-          }}
+          initial="hidden"
+          animate="visible"
+          variants={fadeUpVariant}
+          transition={{ duration: 0.8 }}
           className="text-center"
         >
           <motion.h1
             className="header-title"
-            initial={{
-              opacity: 0,
-              y: 20,
-            }}
-            animate={{
-              opacity: 1,
-              y: 0,
-            }}
-            transition={{
-              delay: 0.2,
-            }}
+            variants={fadeUpVariant}
+            transition={{ delay: 0.2 }}
           >
             Hi, I am Sepideh Rajaei, I am a Frontend Developer
           </motion.h1>
           <motion.p
             className="header-description"
-            initial={{
-              opacity: 0,
-            }}
-            animate={{
-              opacity: 1,
-            }}
-            transition={{
-              delay: 0.4,
-            }}
+            variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
+            transition={{ delay: 0.4 }}
           >
             Crafting beautiful & interactive web experiences
           </motion.p>
           <motion.div
             className="social-icons"
-            initial={{
-              opacity: 0,
-            }}
-            animate={{
-              opacity: 1,
-            }}
-            transition={{
-              delay: 0.6,
-            }}
+            variants={{ hidden: { opacity: 0 }, visible: { opacity: 1 } }}
+            transition={{ delay: 0.6 }}
           >
             <a href="https://github.com/sepool7" target="_blank" rel="noopener noreferrer" className="social-icon">
               <Github size={24} />
@@ -110,70 +126,56 @@ export function App() {
           </motion.div>
         </motion.div>
         <motion.div
-          animate={{
-            y: [0, -20, 0],
-          }}
-          transition={{
-            duration: 4,
-            repeat: Infinity,
-            repeatType: "reverse",
-          }}
+          animate={{ y: [0, -20, 0] }}
+          transition={{ duration: 4, repeat: Infinity, repeatType: "reverse" }}
           className="icon-animation code-icon"
         >
           <Code size={60} />
         </motion.div>
         <motion.div
-          animate={{
-            y: [0, 20, 0],
-          }}
-          transition={{
-            duration: 5,
-            repeat: Infinity,
-            repeatType: "reverse",
-          }}
+          animate={{ y: [0, 20, 0] }}
+          transition={{ duration: 5, repeat: Infinity, repeatType: "reverse" }}
           className="icon-animation laptop-icon"
         >
           <Laptop size={60} />
         </motion.div>
       </header>
 
-      <section className="about-section">
-  <motion.h2
-    initial={{ opacity: 0, x: -20 }}
-    whileInView={{ opacity: 1, x: 0 }}
-    transition={{ duration: 0.6 }}
-    className="section-title"
-  >
-    About Me
-  </motion.h2>
-  <motion.p
-    initial={{ opacity: 0 }}
-    whileInView={{ opacity: 1 }}
-    transition={{ duration: 0.8 }}
-    className="about-text"
-  >
-    I am a dedicated Frontend Developer with a strong eye for design and a love for crafting intuitive user interfaces. My journey into web development started with a fascination for how websites worked, which quickly grew into a passion for building interactive and engaging digital experiences.
-    <br /><br />
-    With experience in modern JavaScript frameworks like React and a solid foundation in HTML, CSS, and TypeScript, I strive to write clean, efficient, and maintainable code. I enjoy tackling challenging problems and continuously learning new technologies to stay current in the fast-paced world of web development.
-    <br /><br />
-    When I'm not coding, you can find me exploring new design trends, contributing to open-source projects, or enjoying a good cup of coffee.
-  </motion.p>
-</section>
-
-
-      <section className="projects-section">
+      {/* About Section */}
+      <section id="about" className="about-section">
         <motion.h2
-          initial={{
-            opacity: 0,
-            x: -20,
-          }}
-          whileInView={{
-            opacity: 1,
-            x: 0,
-          }}
-          transition={{
-            duration: 0.6,
-          }}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUpVariant}
+          transition={{ duration: 0.6 }}
+          className="section-title"
+        >
+          About Me
+        </motion.h2>
+        <motion.p
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+          className="about-text"
+        >
+          I am a dedicated Frontend Developer with a strong eye for design and a love for crafting intuitive user interfaces. My journey into web development started with a fascination for how websites worked, which quickly grew into a passion for building interactive and engaging digital experiences.
+          <br /><br />
+          With experience in modern JavaScript frameworks like React and a solid foundation in HTML, CSS, and TypeScript, I strive to write clean, efficient, and maintainable code. I enjoy tackling challenging problems and continuously learning new technologies to stay current in the fast-paced world of web development.
+          <br /><br />
+          When I'm not coding, you can find me exploring new design trends, contributing to open-source projects, or enjoying a good cup of coffee.
+        </motion.p>
+      </section>
+
+      {/* Projects Section */}
+      <section id="projects" className="projects-section">
+        <motion.h2
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUpVariant}
+          transition={{ duration: 0.6 }}
           className="section-title"
         >
           Featured Projects
@@ -182,20 +184,11 @@ export function App() {
           {projectData.map((project, index) => (
             <motion.div
               key={index}
-              initial={{
-                opacity: 0,
-                y: 20,
-              }}
-              whileInView={{
-                opacity: 1,
-                y: 0,
-              }}
-              transition={{
-                duration: 0.6,
-              }}
-              whileHover={{
-                scale: 1.02,
-              }}
+              initial={{ opacity: 0, y: 40, scale: 0.95 }}
+              whileInView={{ opacity: 1, y: 0, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.7, delay: index * 0.15 }}
+              whileHover={{ scale: 1.05, boxShadow: "0 8px 20px rgba(155, 84, 255, 0.4)" }}
               className="project-card"
             >
               <div
@@ -205,14 +198,14 @@ export function App() {
                   backgroundSize: 'cover',
                   backgroundPosition: 'center',
                 }}
-              ></div>
+              />
               <h3 className="project-title">{project.title}</h3>
               <p className="project-description">{project.description}</p>
               <div className="project-links">
-                <a href={project.liveDemo} className="project-link">
+                <a href={project.liveDemo} className="project-link" target="_blank" rel="noopener noreferrer">
                   <ExternalLink size={16} /> Live Demo
                 </a>
-                <a href={project.code} className="project-link">
+                <a href={project.code} className="project-link" target="_blank" rel="noopener noreferrer">
                   <Github size={16} /> Code
                 </a>
               </div>
@@ -221,19 +214,14 @@ export function App() {
         </div>
       </section>
 
-      <section className="skills-section">
+      {/* Skills Section */}
+      <section id="skills" className="skills-section">
         <motion.h2
-          initial={{
-            opacity: 0,
-            x: -20,
-          }}
-          whileInView={{
-            opacity: 1,
-            x: 0,
-          }}
-          transition={{
-            duration: 0.6,
-          }}
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUpVariant}
+          transition={{ duration: 0.6 }}
           className="section-title"
         >
           Skills & Technologies
@@ -246,20 +234,14 @@ export function App() {
             "Next.js",
             "TailwindCSS",
             "Git",
-          ].map((skill) => (
+          ].map((skill, idx) => (
             <motion.div
               key={skill}
-              initial={{
-                opacity: 0,
-                scale: 0.8,
-              }}
-              whileInView={{
-                opacity: 1,
-                scale: 1,
-              }}
-              whileHover={{
-                scale: 1.05,
-              }}
+              initial={{ opacity: 0, scale: 0.8 }}
+              whileInView={{ opacity: 1, scale: 1 }}
+              viewport={{ once: true }}
+              transition={{ duration: 0.6, delay: idx * 0.12 }}
+              whileHover={{ scale: 1.1, boxShadow: "0 6px 15px rgba(123, 66, 187, 0.5)" }}
               className="skill-card"
             >
               {skill}
