@@ -19,21 +19,21 @@ export function App() {
   const projectData = [
     {
       title: "EVENT NFT",
-      description: "Description for project 1, explaining key features and technologies used.",
+      description: "EventNFT is a Web3-based platform for managing event tickets using NFTs. Built with React and Web3.js, it allows users to connect their wallets, view events, and securely claim blockchain-based tickets through a modern, responsive UI.",
       liveDemo: "https://eventnft.netlify.app/",
       code: "#",
       image: EventNFT,
     },
     {
       title: "chainblockart",
-      description: "Description for project 2, explaining key features and technologies used.",
+      description: "ChainBlockArt is a decentralized ticketing platform where users can mint and claim event tickets as NFTs. Developed with React, Solidity, and Web3.js, it combines blockchain functionality with an interactive UI for seamless user experience.",
       liveDemo: "https://chainblockart.netlify.app/",
       code: "https://github.com/sepool7/ChainblockTicket2277",
       image: chainblockart,
     },
     {
       title: "vectorium",
-      description: "Description for project 3, explaining key features and technologies used.",
+      description: "Vectorium is a modern company site built with Next.js and Tailwind CSS, showcasing creative services through a responsive layout, smooth animations, and dynamic content for a polished user experience.",
       liveDemo: "https://vectorium.co/",
       code: "https://github.com/sepool7/Vectorium4.16",
       image: vectorium,
