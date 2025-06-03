@@ -27,9 +27,6 @@ body, html {
 
 
 
-
-
-
 /* Navigation Dots */
 .nav-dots {
   position: fixed;
@@ -150,6 +147,8 @@ body, html {
 }
 
 .project-card {
+  backdrop-filter: blur(6px);
+  -webkit-backdrop-filter: blur(6px);
   background: rgba(255, 255, 255, 0.05);
   padding: 20px;
   border-radius: 12px;
@@ -220,6 +219,19 @@ body, html {
 }
 
 @media screen and (max-width: 480px) {
+  .header-container, .about-section, .projects-section, .skills-section {
+    padding: 60px 15px;
+  }
+}
+@media screen and (max-width: 600px) {
+  .code-icon,
+  .laptop-icon {
+    display: none;
+  }
+}
+
+
+@media screen and (max-width: 480px) {
   .header-title {
     font-size: 1.8rem;
   }
@@ -234,5 +246,67 @@ body, html {
 
   .about-text {
     font-size: 0.95rem;
+  }
+}
+
+.contact-section {
+  padding: 80px 20px;
+  max-width: 1000px;
+  margin: 0 auto;
+  text-align: center;
+}
+
+.contact-text {
+  max-width: 700px;
+  margin: 0 auto 30px;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #ddd;
+}
+
+.contact-icons {
+  justify-content: center;
+  margin-top: 20px;
+}
+.contact-background-animation {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.contact-background-animation::before,
+.contact-background-animation::after {
+  content: '';
+  position: absolute;
+  width: 200%;
+  height: 200%;
+  top: -50%;
+  left: -50%;
+  background: repeating-linear-gradient(
+    120deg,
+    rgba(255, 255, 255, 0.02) 0,
+    rgba(255, 255, 255, 0.02) 1px,
+    transparent 1px,
+    transparent 50px
+  );
+  animation: moveBackground 60s linear infinite;
+}
+
+.contact-background-animation::after {
+  animation-direction: reverse;
+  opacity: 0.3;
+}
+
+@keyframes moveBackground {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
   }
 }

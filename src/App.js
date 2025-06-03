@@ -14,10 +14,8 @@ import vectorium from './pic/vectorium.png';
 import './App.css';
 
 export function App() {
-  // Scroll tracking for navigation dots
   const [activeSection, setActiveSection] = useState("header");
 
-  // Project data array
   const projectData = [
     {
       title: "EVENT NFT",
@@ -42,9 +40,8 @@ export function App() {
     },
   ];
 
-  // Handle scroll to update active section for nav dots
   useEffect(() => {
-    const sections = ["header", "about", "projects", "skills"];
+    const sections = ["header", "about", "projects", "skills", "contact"];
     function onScroll() {
       const scrollPos = window.scrollY + window.innerHeight / 2;
       for (let i = 0; i < sections.length; i++) {
@@ -60,23 +57,21 @@ export function App() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Scroll to section handler
   function scrollToSection(id) {
     document.getElementById(id)?.scrollIntoView({ behavior: "smooth" });
   }
 
-  // Variants for animations
   const fadeUpVariant = {
     hidden: { opacity: 0, y: 20 },
     visible: { opacity: 1, y: 0 },
   };
 
   return (
-    <div className={"app-container"}>    
+    <div className={"app-container"}>
 
       {/* Navigation Dots */}
       <nav className="nav-dots" aria-label="Section navigation">
-        {["header", "about", "projects", "skills"].map((section) => (
+        {["header", "about", "projects", "skills", ].map((section) => (
           <button
             key={section}
             className={`nav-dot ${activeSection === section ? "active" : ""}`}
@@ -247,6 +242,41 @@ export function App() {
               {skill}
             </motion.div>
           ))}
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="contact-section">
+      <div className="contact-background-animation" />
+        <motion.h2
+          initial="hidden"
+          whileInView="visible"
+          viewport={{ once: true }}
+          variants={fadeUpVariant}
+          transition={{ duration: 0.6 }}
+          className="section-title"
+        >
+          Contact Me
+        </motion.h2>
+        <motion.p
+          className="contact-text"
+          initial={{ opacity: 0 }}
+          whileInView={{ opacity: 1 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.8 }}
+        >
+          I'd love to hear from you! Whether you have a project in mind, want to collaborate, or just want to say hello—feel free to reach out.
+        </motion.p>
+        <div className="social-icons contact-icons">
+          <a href="mailto:rajaei.sepideh77@gmail.com" className="social-icon">
+            <Mail size={24} />
+          </a>
+          <a href="https://github.com/sepool7" target="_blank" rel="noopener noreferrer" className="social-icon">
+            <Github size={24} />
+          </a>
+          <a href="https://www.linkedin.com/in/sepid-rajaei/" target="_blank" rel="noopener noreferrer" className="social-icon">
+            <Linkedin size={24} />
+          </a>
         </div>
       </section>
     </div>
